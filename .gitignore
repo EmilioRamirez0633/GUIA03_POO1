@@ -7,3 +7,7 @@ release.properties
 dependency-reduced-pom.xml
 buildNumber.properties
 .mvn/timing.properties
+/GUIA03_POO1/nbproject/private/
+/nbproject/private/
+/build/
+/dist/
