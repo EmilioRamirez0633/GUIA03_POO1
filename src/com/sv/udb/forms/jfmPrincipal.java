@@ -122,6 +122,7 @@ public class jfmPrincipal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
+        btnrealizar1 = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtnombreCliente = new javax.swing.JTextField();
@@ -264,19 +265,32 @@ public class jfmPrincipal extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
+        btnrealizar1.setBackground(new java.awt.Color(0, 153, 153));
+        btnrealizar1.setFont(new java.awt.Font("Consolas", 2, 14)); // NOI18N
+        btnrealizar1.setText("Ganancias");
+        btnrealizar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnrealizar1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(btnrealizar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnrealizar1)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -323,6 +337,8 @@ public class jfmPrincipal extends javax.swing.JFrame {
 
         txtmontoPago.setFont(new java.awt.Font("Consolas", 2, 14)); // NOI18N
 
+        btnrealizar.setBackground(new java.awt.Color(0, 153, 153));
+        btnrealizar.setFont(new java.awt.Font("Consolas", 2, 14)); // NOI18N
         btnrealizar.setText("Comprar");
         btnrealizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -386,7 +402,7 @@ public class jfmPrincipal extends javax.swing.JFrame {
 
         jpdisponible.setPreferredSize(new java.awt.Dimension(180, 300));
 
-        lblporcentajeRestante.setFont(new java.awt.Font("Consolas", 3, 33)); // NOI18N
+        lblporcentajeRestante.setFont(new java.awt.Font("Consolas", 3, 30)); // NOI18N
         lblporcentajeRestante.setText("100");
 
         lblporcentajeRestante1.setFont(new java.awt.Font("Consolas", 3, 33)); // NOI18N
@@ -399,12 +415,12 @@ public class jfmPrincipal extends javax.swing.JFrame {
             .addGroup(jpdisponibleLayout.createSequentialGroup()
                 .addGroup(jpdisponibleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jpdisponibleLayout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(lblporcentajeRestante))
-                    .addGroup(jpdisponibleLayout.createSequentialGroup()
                         .addGap(62, 62, 62)
-                        .addComponent(lblporcentajeRestante1)))
-                .addContainerGap(103, Short.MAX_VALUE))
+                        .addComponent(lblporcentajeRestante1))
+                    .addGroup(jpdisponibleLayout.createSequentialGroup()
+                        .addGap(38, 38, 38)
+                        .addComponent(lblporcentajeRestante)))
+                .addContainerGap(108, Short.MAX_VALUE))
         );
         jpdisponibleLayout.setVerticalGroup(
             jpdisponibleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -424,7 +440,7 @@ public class jfmPrincipal extends javax.swing.JFrame {
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jpdisponible, javax.swing.GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)
+            .addComponent(jpdisponible, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -687,6 +703,11 @@ public class jfmPrincipal extends javax.swing.JFrame {
     radios();
     }//GEN-LAST:event_rdbespecialItemStateChanged
 
+    private void btnrealizar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrealizar1ActionPerformed
+        jfrmGanancias abrir = new jfrmGanancias();
+        abrir.setVisible(true);
+    }//GEN-LAST:event_btnrealizar1ActionPerformed
+
     
     /**
      * @param args the command line arguments
@@ -727,6 +748,7 @@ public class jfmPrincipal extends javax.swing.JFrame {
     private javax.swing.ButtonGroup btgtipoPago;
     private javax.swing.ButtonGroup btn1;
     private javax.swing.JButton btnrealizar;
+    private javax.swing.JButton btnrealizar1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
