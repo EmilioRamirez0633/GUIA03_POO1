@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 package com.sv.udb.forms;
+import com.sv.udb.clases.Configuraciones;
 import com.sv.udb.clases.Gasolina;
 import com.sv.udb.clases.Valores;
+import com.sv.udb.clases.Valoresconf;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
@@ -40,13 +42,16 @@ public class jfmPrincipal extends javax.swing.JFrame {
      * Creates new form jfmPrincipal
      */
     List<Valores> Actual;
+    List<Valoresconf> Actualconf;
     private String tipoGas;
+    private int galoR=0,galoE=0,galoD=0,pGaloR=0,pGloE=0,pGaloD=0;
     public jfmPrincipal() {
         initComponents();
         setLocationRelativeTo(null);
-        cargarData();
+        cargarGas();
+        cargarPrecios();
     }
-    private void cargarData()
+    private void cargarGas()
     {
         try
         {
@@ -61,6 +66,28 @@ public class jfmPrincipal extends javax.swing.JFrame {
         catch(Exception e)
         {
             JOptionPane.showMessageDialog(this, "Surgio un error en la lectura del csv");
+        }
+    }
+    private void cargarPrecios()
+    {
+        try
+        {
+            Configuraciones obje = new Configuraciones();
+            Actualconf = new ArrayList<>();
+            this.Actualconf = obje.getData();
+            for(Valoresconf temp : obje.getData())
+            {
+                lblpreR.setText(temp.getPrecioR());
+                lblpreD.setText(temp.getPrecioD());
+                lblpreE.setText(temp.getPrecioE());
+                galoR = Integer.parseInt(temp.getGalonesR());
+                galoD = Integer.parseInt(temp.getGalonesD());
+                galoE = Integer.parseInt(temp.getGalonesE());
+            }
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Surgio un error en la lectura del csv de configuraciones");
         }
     }
     /**
@@ -81,9 +108,9 @@ public class jfmPrincipal extends javax.swing.JFrame {
         rdbespecial = new javax.swing.JRadioButton();
         jPanel2 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
+        lblpreE = new javax.swing.JLabel();
+        lblpreD = new javax.swing.JLabel();
+        lblpreR = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
@@ -170,14 +197,14 @@ public class jfmPrincipal extends javax.swing.JFrame {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Precios", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Consolas", 2, 14))); // NOI18N
 
-        jLabel9.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
-        jLabel9.setText("2.64");
+        lblpreE.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
+        lblpreE.setText("2.64");
 
-        jLabel8.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
-        jLabel8.setText("2.64");
+        lblpreD.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
+        lblpreD.setText("2.64");
 
-        jLabel7.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
-        jLabel7.setText("2.64");
+        lblpreR.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
+        lblpreR.setText("2.64");
 
         jLabel2.setFont(new java.awt.Font("Consolas", 3, 14)); // NOI18N
         jLabel2.setText("Precio Regular:");
@@ -202,9 +229,9 @@ public class jfmPrincipal extends javax.swing.JFrame {
                         .addComponent(jLabel2))
                     .addGap(18, 18, 18)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jLabel7)
-                        .addComponent(jLabel9)
-                        .addComponent(jLabel8))
+                        .addComponent(lblpreR)
+                        .addComponent(lblpreE)
+                        .addComponent(lblpreD))
                     .addContainerGap(24, Short.MAX_VALUE)))
         );
         jPanel4Layout.setVerticalGroup(
@@ -215,15 +242,15 @@ public class jfmPrincipal extends javax.swing.JFrame {
                     .addGap(6, 6, 6)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel2)
-                        .addComponent(jLabel7))
+                        .addComponent(lblpreR))
                     .addGap(18, 18, 18)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel6)
-                        .addComponent(jLabel8))
+                        .addComponent(lblpreD))
                     .addGap(18, 18, 18)
                     .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jLabel4)
-                        .addComponent(jLabel9))
+                        .addComponent(lblpreE))
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
         );
 
@@ -518,9 +545,6 @@ public class jfmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -528,6 +552,9 @@ public class jfmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jpdisponible;
     private javax.swing.JLabel lblmonto;
+    private javax.swing.JLabel lblpreD;
+    private javax.swing.JLabel lblpreE;
+    private javax.swing.JLabel lblpreR;
     private javax.swing.JRadioButton rdbdiesel;
     private javax.swing.JRadioButton rdbespecial;
     private javax.swing.JRadioButton rdbregular;
