@@ -5,9 +5,12 @@
  */
 package com.sv.udb.clases;
 
+import com.csvreader.CsvWriter;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,5 +45,36 @@ public class Configuraciones {
             ex.printStackTrace();
         }
     return resp;
+    }
+    
+    public void Actualizar(List<Valoresconf> Nuevo){
+        
+        String outputFile = "src\\com\\sv\\udb\\files\\Configuraciones.csv";
+        boolean alreadyExists = new File(outputFile).exists();
+         
+        if(alreadyExists){
+            File ArchivoEmpleados = new File(outputFile);
+            ArchivoEmpleados.delete();
+        }
+        
+        try {  
+            CsvWriter csvOutput = new CsvWriter(new FileWriter(outputFile, true), ',');
+            for(Valoresconf temp : Nuevo){
+                 
+                csvOutput.write(temp.getPrecioR());
+                csvOutput.write(temp.getPrecioE());
+                csvOutput.write(temp.getPrecioD());
+                csvOutput.write(temp.getGalonesR());
+                csvOutput.write(temp.getGalonesE());
+                csvOutput.write(temp.getGalonesD());
+                csvOutput.endRecord();                   
+            }
+            
+            csvOutput.close();
+         
+        } catch (IOException e) {
+            e.getMessage();
+            e.printStackTrace();
+        }
     }
 }

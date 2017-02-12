@@ -43,25 +43,28 @@ public class jfmPrincipal extends javax.swing.JFrame {
      */
     List<Valores> Actual;
     List<Valoresconf> Actualconf;
+    Valoresconf datos = new Valoresconf();
     private String tipoGas;
-    private int galoR=0,galoE=0,galoD=0,pGaloR=0,pGloE=0,pGaloD=0;
+    private double galoR=0,galoE=0,galoD=0,pGaloR=0,pGaloE=0,pGaloD=0;
+    //variable para saber cuales radiobutton estan seleccionados
+    int combustible=0, metodo=0;
+    //variables de control de porcentaje
+    double porR=0, porD=0, porE=0;
     public jfmPrincipal() {
         initComponents();
         setLocationRelativeTo(null);
         cargarGas();
         cargarPrecios();
+        radios();
     }
     private void cargarGas()
     {
         try
         {
+            
             Gasolina obje = new Gasolina();
             Actual = new ArrayList<>();
             this.Actual = obje.getData();
-            /*for(Valores temp : obje.getData())
-            {
-                JOptionPane.showMessageDialog(this, "Tipo gasolina:" + temp.getTipo());
-            }*/
         }
         catch(Exception e)
         {
@@ -70,6 +73,7 @@ public class jfmPrincipal extends javax.swing.JFrame {
     }
     private void cargarPrecios()
     {
+        Actualconf= null;
         try
         {
             Configuraciones obje = new Configuraciones();
@@ -80,14 +84,18 @@ public class jfmPrincipal extends javax.swing.JFrame {
                 lblpreR.setText(temp.getPrecioR());
                 lblpreD.setText(temp.getPrecioD());
                 lblpreE.setText(temp.getPrecioE());
-                galoR = Integer.parseInt(temp.getGalonesR());
-                galoD = Integer.parseInt(temp.getGalonesD());
-                galoE = Integer.parseInt(temp.getGalonesE());
+                galoR = Double.parseDouble(temp.getGalonesR());
+                galoD = Double.parseDouble(temp.getGalonesD());
+                galoE = Double.parseDouble(temp.getGalonesE());
+                pGaloR = Double.parseDouble(temp.getPrecioR());
+                pGaloD = Double.parseDouble(temp.getPrecioD());
+                pGaloE = Double.parseDouble(temp.getPrecioE());
+                
             }
         }
         catch(Exception e)
         {
-            JOptionPane.showMessageDialog(this, "Surgio un error en la lectura del csv de configuraciones");
+            JOptionPane.showMessageDialog(this, "Surgio un error en la lectura del csv de configuraciones" + e);
         }
     }
     /**
@@ -117,17 +125,18 @@ public class jfmPrincipal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         txtnombreCliente = new javax.swing.JTextField();
-        rdbregular1 = new javax.swing.JRadioButton();
-        rdbregular2 = new javax.swing.JRadioButton();
+        rdbgalones = new javax.swing.JRadioButton();
+        rdbdolares = new javax.swing.JRadioButton();
         jLabel10 = new javax.swing.JLabel();
         lblmonto = new javax.swing.JLabel();
         txtmontoPago = new javax.swing.JTextField();
         btnrealizar = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         jpdisponible = new javax.swing.JPanel();
-        jLabel5 = new javax.swing.JLabel();
+        lblporcentajeRestante = new javax.swing.JLabel();
+        lblporcentajeRestante1 = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setBackground(new java.awt.Color(0, 204, 204));
         jLabel1.setFont(new java.awt.Font("Consolas", 2, 36)); // NOI18N
@@ -139,6 +148,7 @@ public class jfmPrincipal extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED), "Combustibles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Consolas", 2, 14))); // NOI18N
 
         btn1.add(rdbregular);
+        rdbregular.setSelected(true);
         rdbregular.setText("Regular");
         rdbregular.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -278,29 +288,30 @@ public class jfmPrincipal extends javax.swing.JFrame {
 
         txtnombreCliente.setFont(new java.awt.Font("Consolas", 2, 14)); // NOI18N
 
-        btgtipoPago.add(rdbregular1);
-        rdbregular1.setText("Galones");
-        rdbregular1.addItemListener(new java.awt.event.ItemListener() {
+        btgtipoPago.add(rdbgalones);
+        rdbgalones.setSelected(true);
+        rdbgalones.setText("Galones");
+        rdbgalones.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rdbregular1ItemStateChanged(evt);
+                rdbgalonesItemStateChanged(evt);
             }
         });
-        rdbregular1.addMouseListener(new java.awt.event.MouseAdapter() {
+        rdbgalones.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rdbregular1MouseClicked(evt);
+                rdbgalonesMouseClicked(evt);
             }
         });
 
-        btgtipoPago.add(rdbregular2);
-        rdbregular2.setText("Dolares");
-        rdbregular2.addItemListener(new java.awt.event.ItemListener() {
+        btgtipoPago.add(rdbdolares);
+        rdbdolares.setText("Dolares");
+        rdbdolares.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                rdbregular2ItemStateChanged(evt);
+                rdbdolaresItemStateChanged(evt);
             }
         });
-        rdbregular2.addMouseListener(new java.awt.event.MouseAdapter() {
+        rdbdolares.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                rdbregular2MouseClicked(evt);
+                rdbdolaresMouseClicked(evt);
             }
         });
 
@@ -340,9 +351,9 @@ public class jfmPrincipal extends javax.swing.JFrame {
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel10)
                                 .addGap(44, 44, 44)
-                                .addComponent(rdbregular1)
+                                .addComponent(rdbgalones)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-                                .addComponent(rdbregular2)
+                                .addComponent(rdbdolares)
                                 .addGap(24, 24, 24))))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
@@ -358,8 +369,8 @@ public class jfmPrincipal extends javax.swing.JFrame {
                 .addComponent(txtnombreCliente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(rdbregular1)
-                    .addComponent(rdbregular2)
+                    .addComponent(rdbgalones)
+                    .addComponent(rdbdolares)
                     .addComponent(jLabel10))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblmonto)
@@ -375,23 +386,33 @@ public class jfmPrincipal extends javax.swing.JFrame {
 
         jpdisponible.setPreferredSize(new java.awt.Dimension(180, 300));
 
-        jLabel5.setFont(new java.awt.Font("Consolas", 3, 33)); // NOI18N
-        jLabel5.setText("100%");
+        lblporcentajeRestante.setFont(new java.awt.Font("Consolas", 3, 33)); // NOI18N
+        lblporcentajeRestante.setText("100");
+
+        lblporcentajeRestante1.setFont(new java.awt.Font("Consolas", 3, 33)); // NOI18N
+        lblporcentajeRestante1.setText("%");
 
         javax.swing.GroupLayout jpdisponibleLayout = new javax.swing.GroupLayout(jpdisponible);
         jpdisponible.setLayout(jpdisponibleLayout);
         jpdisponibleLayout.setHorizontalGroup(
             jpdisponibleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpdisponibleLayout.createSequentialGroup()
-                .addGap(41, 41, 41)
-                .addComponent(jLabel5)
-                .addContainerGap(84, Short.MAX_VALUE))
+                .addGroup(jpdisponibleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jpdisponibleLayout.createSequentialGroup()
+                        .addGap(40, 40, 40)
+                        .addComponent(lblporcentajeRestante))
+                    .addGroup(jpdisponibleLayout.createSequentialGroup()
+                        .addGap(62, 62, 62)
+                        .addComponent(lblporcentajeRestante1)))
+                .addContainerGap(103, Short.MAX_VALUE))
         );
         jpdisponibleLayout.setVerticalGroup(
             jpdisponibleLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jpdisponibleLayout.createSequentialGroup()
-                .addGap(46, 46, 46)
-                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33)
+                .addComponent(lblporcentajeRestante, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblporcentajeRestante1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -444,58 +465,226 @@ public class jfmPrincipal extends javax.swing.JFrame {
         //
     }//GEN-LAST:event_rdbregularMouseClicked
 
-    private void rdbregularItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbregularItemStateChanged
+    private void radios()
+    {
         if(this.rdbregular.isSelected()==true)
         {
             Imagen Imagen = new Imagen();
         jpdisponible.add(Imagen);
         jpdisponible.repaint();
         tipoGas="Regular";
+        porR = ((galoR/5000)*100);
+        porR = Redondear(porR);
+        lblporcentajeRestante.setText(String.valueOf(porR));
+        combustible =1;
         }
-        
-    }//GEN-LAST:event_rdbregularItemStateChanged
-
-    private void rdbregular1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbregular1ItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdbregular1ItemStateChanged
-
-    private void rdbregular1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbregular1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdbregular1MouseClicked
-
-    private void rdbregular2ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbregular2ItemStateChanged
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdbregular2ItemStateChanged
-
-    private void rdbregular2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbregular2MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_rdbregular2MouseClicked
-
-    private void btnrealizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrealizarActionPerformed
-    Valores Agregar = new Valores(tipoGas,txtmontoPago.getText(), txtnombreCliente.getText());
-            Actual.add(Agregar);
-            Gasolina obj = new Gasolina();
-            obj.Actualizar(Actual);
-    }//GEN-LAST:event_btnrealizarActionPerformed
-
-    private void rdbdieselItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbdieselItemStateChanged
-         if(this.rdbdiesel.isSelected()==true)
-        {
-            Imagen Imagen = new Imagen();
-        jpdisponible.add(Imagen);
-        jpdisponible.repaint();
-        tipoGas="Diesel";
-        }
-    }//GEN-LAST:event_rdbdieselItemStateChanged
-
-    private void rdbespecialItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbespecialItemStateChanged
         if(this.rdbespecial.isSelected()==true)
         {
             Imagen Imagen = new Imagen();
         jpdisponible.add(Imagen);
         jpdisponible.repaint();
         tipoGas="Especial";
+        porE = ((galoE/5000)*100);
+        porE = Redondear(porE);
+        lblporcentajeRestante.setText(String.valueOf(porE));
+        combustible=3;
         }
+        if(this.rdbdiesel.isSelected()==true)
+        {
+            Imagen Imagen = new Imagen();
+        jpdisponible.add(Imagen);
+        jpdisponible.repaint();
+        tipoGas="Diesel";
+        porD = ((galoD/5000)*100);
+        porD = Redondear(porD);
+        lblporcentajeRestante.setText(String.valueOf(porD));
+        combustible=2;
+        
+        }
+        if(rdbgalones.isSelected() == true)
+        {
+            metodo=1;
+        }
+        if(rdbdolares.isSelected() == true)
+        {
+             metodo = 2;
+        }
+    }
+    private void rdbregularItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbregularItemStateChanged
+        radios();
+        
+    }//GEN-LAST:event_rdbregularItemStateChanged
+
+    public static double Redondear(double numero)
+    {
+          int cifras=(int) Math.pow(10,2);
+          return Math.rint(numero*cifras)/cifras;
+    }
+    private void rdbgalonesItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbgalonesItemStateChanged
+        radios();
+    }//GEN-LAST:event_rdbgalonesItemStateChanged
+
+    private void rdbgalonesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbgalonesMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbgalonesMouseClicked
+
+    private void rdbdolaresItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbdolaresItemStateChanged
+        radios();
+    }//GEN-LAST:event_rdbdolaresItemStateChanged
+
+    private void rdbdolaresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_rdbdolaresMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_rdbdolaresMouseClicked
+
+    private void btnrealizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnrealizarActionPerformed
+        try
+        {
+            if(metodo != 0 && combustible != 0 && !txtmontoPago.getText().trim().isEmpty() && !txtnombreCliente.getText().trim().isEmpty())
+            {
+            String nom;
+            int verificar=0;
+            double monto=0;
+            monto= Double.parseDouble(txtmontoPago.getText());
+            nom = String.valueOf(txtnombreCliente.getText());
+                if(metodo == 1)
+                {
+                    switch(combustible)
+                    {
+                        case 1: 
+                            if(monto <= galoR)
+                            {
+                                galoR -= monto;
+                                verificar=1;
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this, "galones insuficientes para realizar esta compra");
+                                txtmontoPago.setText("");
+                                txtmontoPago.requestFocus();
+                            }                            
+                            break;
+                        case 2: 
+                            if(monto <= galoD)
+                            {
+                                galoD -= monto;
+                                verificar=1;
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this, "galones insuficientes para realizar esta compra");
+                                txtmontoPago.setText("");
+                                txtmontoPago.requestFocus();
+                            }     
+                            break;
+                        case 3: 
+                            if(monto <= galoE)
+                            {
+                                galoE -= monto;
+                                verificar=1;
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this, "galones insuficientes para realizar esta compra");
+                                txtmontoPago.setText("");
+                                txtmontoPago.requestFocus();
+                            }     
+                            break;
+                    }
+                }
+                 if(metodo == 2)
+                {
+                    switch(combustible)
+                    {
+                        case 1: 
+                            monto = (monto/pGaloR);
+                            monto = Redondear(monto);
+                            if(monto <= galoR)
+                            {
+                                galoR -= monto;
+                                verificar=1;
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this, "galones insuficientes para realizar esta compra");
+                                txtmontoPago.setText("");
+                                txtmontoPago.requestFocus();
+                            }                            
+                            break;
+                        case 2: 
+                            monto = (monto/pGaloD);
+                            monto = Redondear(monto);
+                            if(monto <= galoD)
+                            {
+                                galoD -= monto;
+                                verificar=1;
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this, "galones insuficientes para realizar esta compra");
+                                txtmontoPago.setText("");
+                                txtmontoPago.requestFocus();
+                            }     
+                            break;
+                        case 3: 
+                            monto = (monto/pGaloE);
+                            monto = Redondear(monto);
+                            if(monto <= galoE)
+                            {
+                                galoE -= monto;
+                                verificar=1;
+                            }
+                            else
+                            {
+                                JOptionPane.showMessageDialog(this, "galones insuficientes para realizar esta compra");
+                                txtmontoPago.setText("");
+                                txtmontoPago.requestFocus();
+                            }     
+                            break;
+                    }
+                }
+                if(verificar==1)
+                {
+                    Valores Agregar = new Valores(tipoGas,String.valueOf(monto),nom );
+                    Actual.add(Agregar);
+                    Gasolina obj = new Gasolina();
+                    obj.Actualizar(Actual);    
+                    Actualconf.remove(0);
+                    Valoresconf modificar = new Valoresconf(String.valueOf(pGaloR),String.valueOf(pGaloE), String.valueOf(pGaloD),String.valueOf(galoR),String.valueOf(galoE),String.valueOf(galoD));
+                    Actualconf.add(0, modificar);
+                    Configuraciones obj2 = new Configuraciones();
+                    obj2.Actualizar(Actualconf);
+                    JOptionPane.showMessageDialog(this, "Compra realizada con exito");
+                    txtmontoPago.setText("");
+                    txtnombreCliente.setText("");
+                    txtnombreCliente.requestFocus();
+                    
+                    cargarGas();
+                    cargarPrecios();
+                    radios();
+                }
+                else
+                {
+                    
+                }
+                
+            }
+            else
+            {
+                JOptionPane.showMessageDialog(this, "Seleecione todos los datos necesarios");
+            }
+        }
+        catch(Exception e)
+        {
+            JOptionPane.showMessageDialog(this, "Ocurrio un problema "+ e);
+        }
+    }//GEN-LAST:event_btnrealizarActionPerformed
+
+    private void rdbdieselItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbdieselItemStateChanged
+        radios();
+    }//GEN-LAST:event_rdbdieselItemStateChanged
+
+    private void rdbespecialItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_rdbespecialItemStateChanged
+    radios();
     }//GEN-LAST:event_rdbespecialItemStateChanged
 
     
@@ -543,7 +732,6 @@ public class jfmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -552,14 +740,16 @@ public class jfmPrincipal extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jpdisponible;
     private javax.swing.JLabel lblmonto;
+    private javax.swing.JLabel lblporcentajeRestante;
+    private javax.swing.JLabel lblporcentajeRestante1;
     private javax.swing.JLabel lblpreD;
     private javax.swing.JLabel lblpreE;
     private javax.swing.JLabel lblpreR;
     private javax.swing.JRadioButton rdbdiesel;
+    private javax.swing.JRadioButton rdbdolares;
     private javax.swing.JRadioButton rdbespecial;
+    private javax.swing.JRadioButton rdbgalones;
     private javax.swing.JRadioButton rdbregular;
-    private javax.swing.JRadioButton rdbregular1;
-    private javax.swing.JRadioButton rdbregular2;
     private javax.swing.JTextField txtmontoPago;
     private javax.swing.JTextField txtnombreCliente;
     // End of variables declaration//GEN-END:variables

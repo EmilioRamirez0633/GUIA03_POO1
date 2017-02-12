@@ -73,4 +73,7 @@ public class Valoresconf {
         this.galonesE = galonesE;
         this.galonesD = galonesD;
     }
+    public Valoresconf() {
+       
+    }
 }
